@@ -102,7 +102,6 @@ public class Engine implements ActionListener {
                 else b[i][j].setBackground(new Color(0xFFFFFF));
                 MaxNumberOnTheField = Math.max(MaxNumberOnTheField, Integer.parseInt(b[i][j].getText()));
                 b[i][j].addActionListener(this);
-                calc(i, j);
                 panel.add(b[i][j]);
             }
         }
@@ -123,6 +122,7 @@ public class Engine implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton o = (JButton) e.getSource();
         int value = Integer.parseInt(o.getText());
+        calc(value);
         Coloring(value);
         // o.setText(r.nextInt(9) + 1 +"");
         o.setEnabled(false);
@@ -148,32 +148,26 @@ public class Engine implements ActionListener {
         }
     }
 
-    public void calc(int i, int j) {
-        b[i][j].addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                move--;
-                mo.setText("The number of moves: " + move);
-                int temp = Integer.parseInt(b[i][j].getText());
-                score = score + temp;
-                l.setText("Score: " + score + ",Target value: " + target);
-                if (move == 0) {
-                    int rem = abs(target - score);
-                    JOptionPane.showMessageDialog(null, "You lost !!!\nYou ran out of moves\nRemaining score: " + rem, "GAME OVER!", JOptionPane.WARNING_MESSAGE);
-                    frame.dispose();
-                    Menu m = new Menu();
-                }
-                if (score > target) {
-                    JOptionPane.showMessageDialog(null, "You lost !!!\nYour score is bigger than the target", "GAME OVER!", JOptionPane.WARNING_MESSAGE);
-                    frame.dispose();
-                    Menu m = new Menu();
-                }
-                if (score == target) {
-                    JOptionPane.showMessageDialog(null, "YOU WIN !!!\nCongratulations", "GAME OVER!", JOptionPane.INFORMATION_MESSAGE);
-                    frame.dispose();
-                    Menu m = new Menu();
-                }
-            }
-        });
+    public void calc(int value) {
+        move--;
+        mo.setText("The number of moves: " + move);
+        score += value;
+        l.setText("Score: " + score + ",Target value: " + target);
+        if (move == 0) {
+            int rem = abs(target - score);
+            JOptionPane.showMessageDialog(null, "You lost !!!\nYou ran out of moves\nRemaining score: " + rem, "GAME OVER!", JOptionPane.WARNING_MESSAGE);
+            frame.dispose();
+            Menu m = new Menu();
+        }
+        if (score > target) {
+            JOptionPane.showMessageDialog(null, "You lost !!!\nYour score is bigger than the target", "GAME OVER!", JOptionPane.WARNING_MESSAGE);
+            frame.dispose();
+            Menu m = new Menu();
+        }
+        if (score == target) {
+            JOptionPane.showMessageDialog(null, "YOU WIN !!!\nCongratulations", "GAME OVER!", JOptionPane.INFORMATION_MESSAGE);
+            frame.dispose();
+            Menu m = new Menu();
+        }
     }
 }
